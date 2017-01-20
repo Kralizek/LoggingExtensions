@@ -10,5 +10,9 @@
     "netstandard1.6": {
       "imports": "dnxcore50"
     }
+  },
+
+  "tools": {
+    "dotnet-version": "1.2.0"
   }
 }
