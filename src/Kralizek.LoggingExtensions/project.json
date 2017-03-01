@@ -1,10 +1,10 @@
 ﻿{
-  "version": "2.0.0-*",
+  "version": "2.0.1-*",
   "title": "LoggingExtensions for .NET Core",
   "authors": [ "Renato Golia" ],
 
   "dependencies": {
-    "NETStandard.Library": "1.6.1",
+    "NETStandard.Library": "1.6.0",
     "Microsoft.Extensions.Logging.Abstractions": "1.0.1"
   },
 
