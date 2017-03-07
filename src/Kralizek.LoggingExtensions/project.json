@@ -1,5 +1,6 @@
 ﻿{
-  "version": "2.0.1-*",
+  "version": "1.0.1-*",
+  "name": "Kralizek.Extensions.Logging",
   "title": "LoggingExtensions for .NET Core",
   "authors": [ "Renato Golia" ],
 
