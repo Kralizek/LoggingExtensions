@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Kralizek.LoggingExtensions", "src\Kralizek.LoggingExtensions\Kralizek.LoggingExtensions.xproj", "{A51F4C0B-F737-4FEB-98BC-AE60505BA8DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kralizek.LoggingExtensions", "src\Kralizek.LoggingExtensions\Kralizek.LoggingExtensions.csproj", "{A51F4C0B-F737-4FEB-98BC-AE60505BA8DA}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ConsoleAppSample", "sample\ConsoleAppSample\ConsoleAppSample.xproj", "{4893B22D-5C3B-4B61-9169-84002416FE53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppSample", "sample\ConsoleAppSample\ConsoleAppSample.csproj", "{4893B22D-5C3B-4B61-9169-84002416FE53}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
