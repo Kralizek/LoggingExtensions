@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DAD92862-7817-4525-9B35-DED94F7FCC2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kralizek.LoggingExtensions", "src\Kralizek.LoggingExtensions\Kralizek.LoggingExtensions.csproj", "{745BBC39-5214-4167-A5DF-0F2444C1F608}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kralizek.Extensions.Logging", "src\Kralizek.Extensions.Logging\Kralizek.Extensions.Logging.csproj", "{745BBC39-5214-4167-A5DF-0F2444C1F608}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{160E7169-F508-471B-A0AC-BFD511EA7FB6}"
 EndProject

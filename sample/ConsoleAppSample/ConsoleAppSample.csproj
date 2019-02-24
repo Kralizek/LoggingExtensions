@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Kralizek.LoggingExtensions\Kralizek.LoggingExtensions.csproj" />
+    <ProjectReference Include="..\..\src\Kralizek.Extensions.Logging\Kralizek.Extensions.Logging.csproj" />
   </ItemGroup>
 
   <ItemGroup>
