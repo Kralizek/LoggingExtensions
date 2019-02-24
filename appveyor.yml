@@ -22,6 +22,8 @@ install:
 build_script:
   - cmd: dotnet cake --target=Full
 
+test: off
+
 artifacts:
   - path: outputs\*.nupkg
     name: packages
