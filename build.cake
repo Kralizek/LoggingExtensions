@@ -80,14 +80,17 @@ Task("RunTests")
 
     bool success = true;
 
+    var frameworks = new[]{"netcoreapp2.2", "net472"};
+
+    foreach (var framework in frameworks)
     foreach (var file in projectFiles)
     {
         try
         {
             Information($"Testing {file.GetFilenameWithoutExtension()}");
 
-            var testResultFile = state.Paths.TestOutputFolder.CombineWithFilePath(file.GetFilenameWithoutExtension() + ".trx");
-            var coverageResultFile = state.Paths.TestOutputFolder.CombineWithFilePath(file.GetFilenameWithoutExtension() + ".dcvr");
+            var testResultFile = state.Paths.TestOutputFolder.CombineWithFilePath($"{file.GetFilenameWithoutExtension()}-{framework.Replace(".","-")}.trx");
+            var coverageResultFile = state.Paths.TestOutputFolder.CombineWithFilePath($"{file.GetFilenameWithoutExtension()}-{framework.Replace(".","-")}.dcvr");
 
             var projectFile = MakeAbsolute(file).ToString();
 
@@ -101,7 +104,8 @@ Task("RunTests")
                 NoBuild = true,
                 NoRestore = true,
                 Logger = $"trx;LogFileName={testResultFile.FullPath}",
-                Filter = "TestCategory!=External"
+                Filter = "TestCategory!=External",
+                Framework = framework
             };
 
             DotCoverCover(c => c.DotNetCoreTest(projectFile, settings), coverageResultFile, dotCoverSettings);

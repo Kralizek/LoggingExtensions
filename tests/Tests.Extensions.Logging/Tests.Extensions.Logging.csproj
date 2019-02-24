@@ -1,4 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Tests</RootNamespace>
+    <TargetFrameworks>netcoreapp2.2;net472</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Kralizek.Extensions.Logging\Kralizek.Extensions.Logging.csproj" />

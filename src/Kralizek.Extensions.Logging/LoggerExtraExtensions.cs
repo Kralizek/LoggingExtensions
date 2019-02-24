@@ -23,8 +23,6 @@ namespace Microsoft.Extensions.Logging
 
         private static void Log(this ILogger logger, LogLevel level, string message)
         {
-            //var state = new { message };
-
             Log(logger, level, message, null, (s, _) => s);
         }
 
@@ -34,6 +32,12 @@ namespace Microsoft.Extensions.Logging
         {
             Log(logger, level, EmptyState, error, (a, e) => e.ToString());
         }
+
+        private static void Log(this ILogger logger, LogLevel level, EventId eventId, Exception error)
+        {
+            logger.Log(level, eventId, EmptyState, error, (a, e) => e.ToString());
+        }
+
 
         #region Trace
 
@@ -45,6 +49,11 @@ namespace Microsoft.Extensions.Logging
         public static void LogTrace(this ILogger logger, Exception error)
         {
             Log(logger, LogLevel.Trace, error);
+        }
+
+        public static void LogTrace(this ILogger logger, EventId eventId, Exception error)
+        {
+            Log(logger, LogLevel.Trace, eventId, error);
         }
 
         public static void LogTrace<TState>(this ILogger logger, TState state, Func<TState, string> formatter)
@@ -81,6 +90,11 @@ namespace Microsoft.Extensions.Logging
             Log(logger, LogLevel.Debug, error);
         }
 
+        public static void LogDebug(this ILogger logger, EventId eventId, Exception error)
+        {
+            Log(logger, LogLevel.Debug, eventId, error);
+        }
+
         public static void LogDebug<TState>(this ILogger logger, TState state, Func<TState, string> formatter)
         {
             Log(logger, LogLevel.Debug, state, formatter);
@@ -113,6 +127,11 @@ namespace Microsoft.Extensions.Logging
         public static void LogInformation(this ILogger logger, Exception error)
         {
             Log(logger, LogLevel.Information, error);
+        }
+
+        public static void LogInformation(this ILogger logger, EventId eventId, Exception error)
+        {
+            Log(logger, LogLevel.Information, eventId, error);
         }
 
         public static void LogInformation<TState>(this ILogger logger, TState state, Func<TState, string> formatter)
@@ -149,6 +168,11 @@ namespace Microsoft.Extensions.Logging
             Log(logger, LogLevel.Warning, error);
         }
 
+        public static void LogWarning(this ILogger logger, EventId eventId, Exception error)
+        {
+            Log(logger, LogLevel.Warning, eventId, error);
+        }
+
         public static void LogWarning<TState>(this ILogger logger, TState state, Func<TState, string> formatter)
         {
             Log(logger, LogLevel.Warning, state, formatter);
@@ -183,6 +207,11 @@ namespace Microsoft.Extensions.Logging
             Log(logger, LogLevel.Error, error);
         }
 
+        public static void LogError(this ILogger logger, EventId eventId, Exception error)
+        {
+            Log(logger, LogLevel.Error, eventId, error);
+        }
+
         public static void LogError<TState>(this ILogger logger, TState state, Func<TState, string> formatter)
         {
             Log(logger, LogLevel.Error, state, formatter);
@@ -215,6 +244,11 @@ namespace Microsoft.Extensions.Logging
         public static void LogCritical(this ILogger logger, Exception error)
         {
             Log(logger, LogLevel.Critical, error);
+        }
+
+        public static void LogCritical(this ILogger logger, EventId eventId, Exception error)
+        {
+            Log(logger, LogLevel.Critical, eventId, error);
         }
 
         public static void LogCritical<TState>(this ILogger logger, TState state, Func<TState, string> formatter)

@@ -1,10 +1,5 @@
 <Project>
-  <PropertyGroup>
-    <RootNamespace>Tests</RootNamespace>
-    <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
-  
+ 
   <ItemGroup>
     <PackageReference Include="nunit" Version="3.11.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
