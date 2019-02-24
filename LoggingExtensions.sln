@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kralizek.Extensions.Logging
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{160E7169-F508-471B-A0AC-BFD511EA7FB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.LoggingExtensions", "tests\Tests.LoggingExtensions\Tests.LoggingExtensions.csproj", "{F672AE8A-02F0-4C60-A903-35D3E04EFFF6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Extensions.Logging", "tests\Tests.Extensions.Logging\Tests.Extensions.Logging.csproj", "{F672AE8A-02F0-4C60-A903-35D3E04EFFF6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{06F07CD7-BA6F-4F5C-A207-80F5CA1E4742}"
 EndProject
