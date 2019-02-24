@@ -23,9 +23,9 @@ namespace Microsoft.Extensions.Logging
 
         private static void Log(this ILogger logger, LogLevel level, string message)
         {
-            var state = new { message };
+            //var state = new { message };
 
-            Log(logger, level, state, null, (s, _) => state.message);
+            Log(logger, level, message, null, (s, _) => s);
         }
 
         private static readonly object EmptyState = new object();

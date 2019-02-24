@@ -1,0 +1,44 @@
+max_jobs: 1
+
+image: Visual Studio 2017
+
+environment:
+  COVERALLS_REPO_TOKEN:
+    secure: FLG2WTxc1Gvrikrvj/UXnb9IAklUhPKGYV5pxOzlwsOWGQBiiEigRnyWCvCc2Zga
+  MYGET_TOKEN:
+    secure: yP12k1vrHJyValU1UWnW3NySjKfXlRomR8p4qqmYs26FDztsGMlCQeT5jdCVHlz6
+
+cache:
+  - '%LocalAppData%\NuGet\v3-cache'
+
+nuget:
+  account_feed: false
+  project_feed: false
+  disable_publish_on_pr: true
+
+install:
+  - cmd: dotnet tool install -g Cake.Tool --version 0.30.0
+
+build_script:
+  - cmd: dotnet cake --target=Full
+
+artifacts:
+  - path: outputs\*.nupkg
+    name: packages
+  - path: outputs\*.snupkg
+    name: symbols
+  - path: outputs\tests\report
+    name: report
+    type: zip
+
+deploy:
+  - provider: NuGet
+    server: https://www.myget.org/F/kralizek/api/v2/package
+    api_key:
+      secure: nzpKWW5x3vCjZnRJl8CyschyCOnVViDH46ZmvO72jOSFYc2INxusFMneX+RKdbYt
+    artifact: packages
+  - provider: Environment
+    name: NuGet
+    on:
+      branch: master
+      appveyor_repo_tag: true

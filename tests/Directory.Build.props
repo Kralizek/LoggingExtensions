@@ -1,0 +1,21 @@
+<Project>
+  <PropertyGroup>
+    <RootNamespace>Tests</RootNamespace>
+    <TargetFrameworks>netcoreapp2.2</TargetFrameworks>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="nunit" Version="3.11.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+
+    <PackageReference Include="AutoFixture" Version="4.8.0" />
+    <PackageReference Include="AutoFixture.NUnit3" Version="4.8.0" />
+    <PackageReference Include="AutoFixture.AutoMoq" Version="4.8.0" />
+    <PackageReference Include="AutoFixture.Idioms" Version="4.8.0" />
+
+    <PackageReference Include="Moq" Version="4.10.1" />
+  </ItemGroup>
+
+</Project>
