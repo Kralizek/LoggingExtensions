@@ -20,14 +20,6 @@ namespace Tests
         }
 
         [Test, AutoMoqData]
-        public void LogWarning_logs_message(ILogger logger, string message)
-        {
-            LoggerExtraExtensions.LogWarning(logger, message);
-            
-            Mock.Get(logger).Verify(p => p.Log(LogLevel.Warning, 0, message, null, AnyFormatter<string>()));
-        }
-
-        [Test, AutoMoqData]
         public void LogWarning_logs_exception(ILogger logger, Exception error)
         {
             LoggerExtraExtensions.LogWarning(logger, error);

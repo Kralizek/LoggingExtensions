@@ -41,11 +41,6 @@ namespace Microsoft.Extensions.Logging
 
         #region Trace
 
-        public static void LogTrace(this ILogger logger, string message)
-        {
-            Log(logger, LogLevel.Trace, message);
-        }
-
         public static void LogTrace(this ILogger logger, Exception error)
         {
             Log(logger, LogLevel.Trace, error);
@@ -79,11 +74,6 @@ namespace Microsoft.Extensions.Logging
         #endregion
 
         #region Debug
-
-        public static void LogDebug(this ILogger logger, string message)
-        {
-            Log(logger, LogLevel.Debug, message);
-        }
 
         public static void LogDebug(this ILogger logger, Exception error)
         {
@@ -119,11 +109,6 @@ namespace Microsoft.Extensions.Logging
 
         #region Information
 
-        public static void LogInformation(this ILogger logger, string message)
-        {
-            Log(logger, LogLevel.Information, message);
-        }
-
         public static void LogInformation(this ILogger logger, Exception error)
         {
             Log(logger, LogLevel.Information, error);
@@ -157,11 +142,6 @@ namespace Microsoft.Extensions.Logging
         #endregion
 
         #region Warn
-
-        public static void LogWarning(this ILogger logger, string message)
-        {
-            Log(logger, LogLevel.Warning, message);
-        }
 
         public static void LogWarning(this ILogger logger, Exception error)
         {
@@ -197,11 +177,6 @@ namespace Microsoft.Extensions.Logging
 
         #region Error
 
-        public static void LogError(this ILogger logger, string message)
-        {
-            Log(logger, LogLevel.Error, message);
-        }
-
         public static void LogError(this ILogger logger, Exception error)
         {
             Log(logger, LogLevel.Error, error);
@@ -235,11 +210,6 @@ namespace Microsoft.Extensions.Logging
         #endregion
 
         #region Critical
-
-        public static void LogCritical(this ILogger logger, string message)
-        {
-            Log(logger, LogLevel.Critical, message);
-        }
 
         public static void LogCritical(this ILogger logger, Exception error)
         {

@@ -20,14 +20,6 @@ namespace Tests
         }
 
         [Test, AutoMoqData]
-        public void LogTrace_logs_message(ILogger logger, string message)
-        {
-            LoggerExtraExtensions.LogTrace(logger, message);
-            
-            Mock.Get(logger).Verify(p => p.Log(LogLevel.Trace, 0, message, null, AnyFormatter<string>()));
-        }
-
-        [Test, AutoMoqData]
         public void LogTrace_logs_exception(ILogger logger, Exception error)
         {
             LoggerExtraExtensions.LogTrace(logger, error);
