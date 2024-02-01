@@ -28,11 +28,14 @@ test: false
 artifacts:
   - path: outputs\*.nupkg
     name: packages
+    type: NuGetPackage
   - path: outputs\*.snupkg
     name: symbols
+    type: NuGetPackage
   - path: outputs\tests\report
     name: report
-    type: zip
+    type: Zip
+
 
 deploy:
   - provider: Environment

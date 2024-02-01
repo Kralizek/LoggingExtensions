@@ -3,22 +3,21 @@ using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.NUnit3;
 
-namespace Tests
+namespace Tests;
+
+[AttributeUsage(AttributeTargets.Method)]
+public class AutoMoqDataAttribute : AutoDataAttribute
 {
-    [AttributeUsage(AttributeTargets.Method)]
-    public class AutoMoqDataAttribute : AutoDataAttribute
+    public AutoMoqDataAttribute() : base(() =>
     {
-        public AutoMoqDataAttribute() : base(() =>
+        var fixture = new Fixture();
+
+        fixture.Customize(new AutoMoqCustomization
         {
-            var fixture = new Fixture();
+            ConfigureMembers = true,
+            GenerateDelegates = true
+        });
 
-            fixture.Customize(new AutoMoqCustomization
-            {
-                ConfigureMembers = true,
-                GenerateDelegates = true
-            });
-
-            return fixture;
-        }) { }
-    }
+        return fixture;
+    }) { }
 }
