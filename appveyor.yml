@@ -1,12 +1,13 @@
 max_jobs: 1
 
-image: Visual Studio 2017
-
 environment:
   COVERALLS_REPO_TOKEN:
     secure: FLG2WTxc1Gvrikrvj/UXnb9IAklUhPKGYV5pxOzlwsOWGQBiiEigRnyWCvCc2Zga
   MYGET_TOKEN:
     secure: yP12k1vrHJyValU1UWnW3NySjKfXlRomR8p4qqmYs26FDztsGMlCQeT5jdCVHlz6
+  CAKE_SETTINGS_SKIPPACKAGEVERSIONCHECK: "true"
+
+image: Visual Studio 2022
 
 cache:
   - '%LocalAppData%\NuGet\v3-cache'
@@ -17,12 +18,12 @@ nuget:
   disable_publish_on_pr: true
 
 install:
-  - cmd: dotnet tool install -g Cake.Tool --version 0.30.0
+  - cmd: dotnet tool restore
 
 build_script:
   - cmd: dotnet cake --target=Full
 
-test: off
+test: false
 
 artifacts:
   - path: outputs\*.nupkg
@@ -34,13 +35,22 @@ artifacts:
     type: zip
 
 deploy:
-  - provider: NuGet
-    server: https://www.myget.org/F/kralizek/api/v2/package
-    api_key:
-      secure: nzpKWW5x3vCjZnRJl8CyschyCOnVViDH46ZmvO72jOSFYc2INxusFMneX+RKdbYt
-    artifact: packages
   - provider: Environment
     name: NuGet
     on:
-      branch: master
+      branch:
+        - master
+        - main
       appveyor_repo_tag: true
+  - provider: Environment
+    name: GitHub Packages - Kralizek
+    on:
+      branch:
+        - master
+        - main
+      appveyor_repo_tag: true
+  - provider: NuGet
+    server: https://www.myget.org/F/kralizek/api/v2/package
+    api_key:
+      secure: SxuPZ1GdSw4IgdN1KHN9Ky36oUY5ZRT0ZZXd1BdDr+GgktRazqBz6dLcjA56++X/
+    artifact: packages

@@ -1,9 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Tests</RootNamespace>
-    <TargetFrameworks>netcoreapp2.2;net472</TargetFrameworks>
-    <IsPackable>false</IsPackable>
+    <TargetFrameworks>net6.0;net8.0;net48</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>

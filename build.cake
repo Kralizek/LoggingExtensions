@@ -1,20 +1,13 @@
 #tool "nuget:?package=ReportGenerator&version=4.0.5"
-#tool "nuget:?package=JetBrains.dotCover.CommandLineTools&version=2018.3.1"
+#tool "nuget:?package=JetBrains.dotCover.CommandLineTools&version=2019.2.2"
 #tool "nuget:?package=GitVersion.CommandLine&version=4.0.0"
-
-#load "./build/types.cake"
-
-
 var target = Argument("Target", "Full");
 
 Setup<BuildState>(_ => 
 {
     var state = new BuildState
     {
-        Paths = new BuildPaths
-        {
-            SolutionFile = MakeAbsolute(File("./LoggingExtensions.sln"))
-        }
+        Paths = new BuildPaths(solutionFile: GetSolutionFile())
     };
 
     CleanDirectory(state.Paths.OutputFolder);
@@ -27,17 +20,15 @@ Task("Version")
 {
     var version = GitVersion();
 
-    var packageVersion = version.SemVer;
-    var buildVersion = $"{version.FullSemVer}+{DateTimeOffset.UtcNow:yyyyMMddHHmmss}";
-
     state.Version = new VersionInfo
     {
-        PackageVersion = packageVersion,
-        BuildVersion = buildVersion
+        PackageVersion = version.SemVer,
+        AssemblyVersion = $"{version.SemVer}+{version.Sha.Substring(0, 8)}",
+        BuildVersion = $"{version.FullSemVer}+{version.Sha.Substring(0, 8)}-{DateTimeOffset.UtcNow:yyyyMMddHHmmss}"
     };
 
-
     Information($"Package version: {state.Version.PackageVersion}");
+    Information($"Assembly version: {state.Version.AssemblyVersion}");
     Information($"Build version: {state.Version.BuildVersion}");
 
     if (BuildSystem.IsRunningOnAppVeyor)
@@ -49,8 +40,6 @@ Task("Version")
 Task("Restore")
     .Does<BuildState>(state =>
 {
-    Information($"Restoring {state.Paths.SolutionFile}");
-
     var settings = new DotNetCoreRestoreSettings
     {
 
@@ -80,48 +69,62 @@ Task("RunTests")
 
     bool success = true;
 
-    var frameworks = new[]{"netcoreapp2.2", "net472"};
-
-    foreach (var framework in frameworks)
     foreach (var file in projectFiles)
     {
-        try
+        var targetFrameworks = GetTargetFrameworks(file);
+
+        foreach (var framework in targetFrameworks)
         {
-            Information($"Testing {file.GetFilenameWithoutExtension()}");
+            var frameworkFriendlyName = framework.Replace(".", "-");
 
-            var testResultFile = state.Paths.TestOutputFolder.CombineWithFilePath($"{file.GetFilenameWithoutExtension()}-{framework.Replace(".","-")}.trx");
-            var coverageResultFile = state.Paths.TestOutputFolder.CombineWithFilePath($"{file.GetFilenameWithoutExtension()}-{framework.Replace(".","-")}.dcvr");
-
-            var projectFile = MakeAbsolute(file).ToString();
-
-            var dotCoverSettings = new DotCoverCoverSettings()
-                                    .WithFilter("+:Kralizek*")
-                                    .WithFilter("-:Tests*")
-                                    .WithFilter("-:TestUtils");
-
-            var settings = new DotNetCoreTestSettings
+            try
             {
-                NoBuild = true,
-                NoRestore = true,
-                Logger = $"trx;LogFileName={testResultFile.FullPath}",
-                Filter = "TestCategory!=External",
-                Framework = framework
-            };
+                Information($"Testing {file.GetFilenameWithoutExtension()} ({framework})");
 
-            DotCoverCover(c => c.DotNetCoreTest(projectFile, settings), coverageResultFile, dotCoverSettings);
-        }
-        catch (Exception ex)
-        {
-            Error($"There was an error while executing the tests: {file.GetFilenameWithoutExtension()}", ex);
-            success = false;
-        }
+                var testResultFile = state.Paths.TestOutputFolder.CombineWithFilePath($"{file.GetFilenameWithoutExtension()}-{frameworkFriendlyName}.trx");
+                var coverageResultFile = state.Paths.TestOutputFolder.CombineWithFilePath($"{file.GetFilenameWithoutExtension()}-{frameworkFriendlyName}.dcvr");
 
-        Information("");
+                var projectFile = MakeAbsolute(file).ToString();
+
+                var dotCoverSettings = new DotCoverCoverSettings()
+                                        .WithFilter("+:Kralizek*")
+                                        .WithFilter("-:Tests*")
+                                        .WithFilter("-:TestUtils");
+
+                var settings = new DotNetCoreTestSettings
+                {
+                    NoBuild = true,
+                    NoRestore = true,
+                    Logger = $"trx;LogFileName={testResultFile.FullPath}",
+                    Filter = "TestCategory!=External",
+                    Framework = framework
+                };
+
+                DotCoverCover(c => c.DotNetCoreTest(projectFile, settings), coverageResultFile, dotCoverSettings);
+            }
+            catch (Exception ex)
+            {
+                Error($"There was an error while executing the tests: {file.GetFilenameWithoutExtension()}", ex);
+                success = false;
+            }
+
+            Information("");
+        }
     }
     
     if (!success)
     {
         throw new CakeException("There was an error while executing the tests");
+    }
+
+    string[] GetTargetFrameworks(FilePath file)
+    {
+        XmlPeekSettings settings = new XmlPeekSettings
+        {
+            SuppressWarning = true
+        };
+
+        return (XmlPeek(file, "/Project/PropertyGroup/TargetFrameworks", settings) ?? XmlPeek(file, "/Project/PropertyGroup/TargetFramework", settings)).Split(';');
     }
 });
 
@@ -146,7 +149,7 @@ Task("GenerateXmlReport")
     });
 });
 
-Task("GenerateHtmlReport")
+Task("ExportReport")
     .IsDependentOn("GenerateXmlReport")
     .Does<BuildState>(state =>
 {
@@ -175,7 +178,7 @@ Task("Test")
     .IsDependentOn("RunTests")
     .IsDependentOn("MergeCoverageResults")
     .IsDependentOn("GenerateXmlReport")
-    .IsDependentOn("GenerateHtmlReport")
+    .IsDependentOn("ExportReport")
     .IsDependentOn("UploadTestsToAppVeyor");
 
 Task("PackLibraries")
@@ -189,7 +192,10 @@ Task("PackLibraries")
         NoRestore = true,
         OutputDirectory = state.Paths.OutputFolder,
         IncludeSymbols = true,
-        ArgumentCustomization = args => args.Append($"-p:SymbolPackageFormat=snupkg -p:Version={state.Version.PackageVersion}")
+        MSBuildSettings = new DotNetCoreMSBuildSettings()
+                            .SetInformationalVersion(state.Version.AssemblyVersion)
+                            .SetVersion(state.Version.PackageVersion)
+                            .WithProperty("ContinuousIntegrationBuild", "true")
     };
 
     DotNetCorePack(state.Paths.SolutionFile.ToString(), settings);
@@ -228,3 +234,56 @@ Task("Full")
     .IsDependentOn("Push");
 
 RunTarget(target);
+
+private FilePath GetSolutionFile()
+{
+    var solutionFilesInRoot = GetFiles("./*.sln");
+
+    var solutionFile = solutionFilesInRoot.FirstOrDefault();
+
+    if (solutionFile == null) throw new ArgumentNullException("No solution file found");
+
+    return solutionFile;
+}
+
+public class BuildState
+{
+    public VersionInfo Version { get; set; }
+
+    public BuildPaths Paths { get; set; }
+}
+
+public class BuildPaths
+{
+    public BuildPaths(FilePath solutionFile)
+    {
+        SolutionFile = solutionFile ?? throw new ArgumentNullException(nameof(solutionFile));
+    }
+
+    public FilePath SolutionFile { get; }
+
+    public DirectoryPath SolutionFolder => SolutionFile.GetDirectory();
+
+    public DirectoryPath TestFolder => SolutionFolder.Combine("tests");
+
+    public DirectoryPath OutputFolder => SolutionFolder.Combine("outputs");
+
+    public DirectoryPath TestOutputFolder => OutputFolder.Combine("tests");
+
+    public DirectoryPath ReportFolder => TestOutputFolder.Combine("report");
+
+    public FilePath DotCoverOutputFile => TestOutputFolder.CombineWithFilePath("coverage.dcvr");
+
+    public FilePath DotCoverOutputFileXml => TestOutputFolder.CombineWithFilePath("coverage.xml");
+
+    public FilePath OpenCoverResultFile => OutputFolder.CombineWithFilePath("OpenCover.xml");
+}
+
+public class VersionInfo
+{
+    public string PackageVersion { get; set; }
+
+    public string AssemblyVersion { get; set; }
+
+    public string BuildVersion { get; set; }
+}

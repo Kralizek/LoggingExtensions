@@ -4,11 +4,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <PackageId>$(AssemblyName)</PackageId>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Kralizek/LoggingExtensions</PackageProjectUrl>
-    <NoWarn>NU5105,NU5125</NoWarn>
-    <LangVersion>latest</LangVersion>
+    <PackageTags>dotnet-standard;microsoft;extensions;logging;</PackageTags>
+    <Description>Extension methods for typed logging.</Description>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -19,7 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-*" PrivateAssets="All"/>
-    <PackageReference Include="SourceLink.Copy.PdbFiles" Version="2.8.3" PrivateAssets="All" /> 
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All"/>
+    <PackageReference Include="SourceLink.Copy.PdbFiles" Version="2.8.3" PrivateAssets="All" />
   </ItemGroup>
 </Project>

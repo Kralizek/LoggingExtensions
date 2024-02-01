@@ -1,16 +1,23 @@
 <Project>
+
+  <PropertyGroup>
+    <RootNamespace>Tests</RootNamespace>
+    <IsPackable>false</IsPackable>
+    <LangVersion>latest</LangVersion>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
  
   <ItemGroup>
-    <PackageReference Include="nunit" Version="3.11.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.11.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
+    <PackageReference Include="nunit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
 
-    <PackageReference Include="AutoFixture" Version="4.8.0" />
-    <PackageReference Include="AutoFixture.NUnit3" Version="4.8.0" />
-    <PackageReference Include="AutoFixture.AutoMoq" Version="4.8.0" />
-    <PackageReference Include="AutoFixture.Idioms" Version="4.8.0" />
+    <PackageReference Include="AutoFixture" Version="4.18.1" />
+    <PackageReference Include="AutoFixture.NUnit3" Version="4.18.1" />
+    <PackageReference Include="AutoFixture.AutoMoq" Version="4.18.1" />
+    <PackageReference Include="AutoFixture.Idioms" Version="4.18.1" />
 
-    <PackageReference Include="Moq" Version="4.10.1" />
+    <PackageReference Include="Moq" Version="4.18.4" />
   </ItemGroup>
 
 </Project>
