@@ -1,3 +1,6 @@
+> [!WARNING]
+> This project is no longer maintained. Existing NuGet packages remain available for existing consumers, but no new releases are planned. Prefer the built-in high-performance logging APIs in modern .NET, including source-generated `LoggerMessage` support. This repository is being archived and kept read-only.
+
 [![Buy me a pizza!](https://img.buymeacoffee.com/button-api/?text=Buy%20me%20a%20pizza&emoji=🍕&slug=rengol&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff)](https://www.buymeacoffee.com/rengol)
 
 [![Build status](https://ci.appveyor.com/api/projects/status/p1ldsq86v38cgu5d?svg=true)](https://ci.appveyor.com/project/Kralizek/loggingextensions) [![NuGet version](https://img.shields.io/nuget/vpre/Kralizek.Extensions.Logging.svg)](https://www.nuget.org/packages/Kralizek.Extensions.Logging)
@@ -60,7 +63,3 @@ You can do it by using the .NET tool created by CAKE authors and use it to execu
 dotnet tool install -g Cake.Tool
 dotnet cake
 ```
-
-
-
-
